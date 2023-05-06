@@ -7,7 +7,7 @@ const people = await getAllEntriesOfContentType('member');
 
 ---
 
-<Layout title="DSSD Madison - People">
+<Layout title="DSSD GWU - People">
     <main class="pt-28">
       <PersonGroup title="Board Members" people={people} filter={(person) => !person.fields.graduated && person.fields.role.localeCompare("Member") != 0} />
       <PersonGroup title="Members" people={people} filter={(person) => !person.fields.graduated && person.fields.role.localeCompare("Member") == 0} darker={true} hideRoles={true}/>

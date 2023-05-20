@@ -19,8 +19,14 @@
             path: "/projects"
         },
         {
+            name: "Research"
+        },
+        {
             name: "People",
             path: "/people"
+        },
+        {
+            name: "Blog"
         },
         {
             name: "Get Involved",

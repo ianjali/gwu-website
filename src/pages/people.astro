@@ -9,8 +9,9 @@ const people = await getAllEntriesOfContentType('member');
 
 <Layout title="DSSD GWU - People">
     <main class="pt-28">
-      <PersonGroup title="Board Members" people={people} filter={(person) => !person.fields.graduated && person.fields.role.localeCompare("Member") != 0} />
+      <PersonGroup title="Executive Team" people={people} filter={(person) => !person.fields.graduated && person.fields.role.localeCompare("Member") != 0} />
       <PersonGroup title="Members" people={people} filter={(person) => !person.fields.graduated && person.fields.role.localeCompare("Member") == 0} darker={true} hideRoles={true}/>
-      <PersonGroup title="Alumni" people={people} filter={(person) => person.fields.graduated} />
+        <!-- to add alumni's later uncomment the following -->
+        <!--  <PersonGroup title="Alumni" people={people} filter={(person) => person.fields.graduated} /> -->
     </main>
 </Layout>

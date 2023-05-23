@@ -20,7 +20,7 @@
         },
         {
             name: "Research",
-            path: "/"
+            path: "/research"
         },
         {
             name: "People",
@@ -28,7 +28,7 @@
         },
         {
             name: "Blog",
-            path: "/"
+            path: "/blogs"
         },
         {
             name: "Get Involved",

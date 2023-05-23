@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Project from "../components/Blog.astro";
+import { getAllEntriesOfContentType } from "../services/contentful";
+
+Astro.response.headers.set(
+    "Cache-Control",
+    `max-age=${import.meta.env.CACHING_MAX_AGE}`
+);
+
+const blogs = await getAllEntriesOfContentType('blog');
+---
+
+<Layout title="DSSD GWU - Blog">
+    <main class="pt-28">
+        <div class="container p-8 mx-auto space-y-8">
+            {blogs.map((blog) => (
+                <Project data={blog.fields}/>
+            ))}
+        </div>
+    </main>
+</Layout>

@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Project from "../components/Research.astro";
+import { getAllEntriesOfContentType } from "../services/contentful";
+
+Astro.response.headers.set(
+    "Cache-Control",
+    `max-age=${import.meta.env.CACHING_MAX_AGE}`
+);
+
+const researchs = await getAllEntriesOfContentType('research');
+---
+
+<Layout title="DSSD GWU - Research">
+    <main class="pt-28">
+        <div class="container p-8 mx-auto space-y-8">
+            {researchs.map((research) => (
+                <Project data={research.fields}/>
+            ))}
+        </div>
+    </main>
+</Layout>

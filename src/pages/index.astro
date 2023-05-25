@@ -14,7 +14,20 @@ Astro.response.headers.set("Cache-Control", `max-age=${import.meta.env.CACHING_M
 ---
 
 <Layout title="DSSD GWU">
-	<main class="bg-[url('/index/bgPattern.jpg')]" >
+	<style>
+		.bg-pattern {
+		  background-image: url('/index/bgPattern.jpg');
+		  background-repeat: no-repeat;
+		  /* background-attachment: fixed; */
+		  /* background-size: cover;*/
+		  width:auto;
+		  height: auto; 
+		  background-size: 100% 100%;
+		  /* background-repeat: no-repeat; */
+		}
+	  </style>
+	<main class="bg-pattern ">
+	<!-- <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600"> -->
     <Welcome />
     <About />
 		<Join />

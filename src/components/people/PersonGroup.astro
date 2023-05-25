@@ -5,10 +5,38 @@ const {title, people, filter, darker, hideRoles} = Astro.props;
 
 // Get person's name, rearanged for sorting
 const getName = (person) => {
-  return person.fields.fullName.split(" ").reverse().join(" ");
+  return person.fields.fullName; 
 }
+const sortedPeople = people.sort((a, b) => {
+  const roleOrder = {
+    chairperson: 0,
+    project: 1,
+    research: 2,
+    software: 3,
+    gis: 4,
+  };
 
-const sortedPeople = people.sort((a, b) => getName(a).localeCompare(getName(b)));
+  const getRoleOrder = (person) => {
+    const role = person.fields.role.toLowerCase();
+    for (const key in roleOrder) {
+      if (role.includes(key)) {
+        return roleOrder[key];
+      }
+    }
+    return 5; // Default order for members
+  };
+
+  const roleOrderA = getRoleOrder(a);
+  const roleOrderB = getRoleOrder(b);
+
+  if (roleOrderA !== roleOrderB) {
+    return roleOrderA - roleOrderB;
+  } else {
+    return getName(a).localeCompare(getName(b));
+  }
+});
+
+
 ---
 
 <div class={"my-8 flex flex-col items-center " + (darker && "bg-gray-300")}>
@@ -21,3 +49,6 @@ const sortedPeople = people.sort((a, b) => getName(a).localeCompare(getName(b)))
     })}
   </div>
 </div>
+
+
+

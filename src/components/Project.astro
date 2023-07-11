@@ -1,14 +1,8 @@
 ---
 import { documentToHtmlString } from "../util/richTextHelper";
 
-const {title,preview,  description, team} = Astro.props.data;
-console.log(Astro.props.data);
-console.log("Project Data?\n")
-console.log("preview:", preview);
-console.log("title:", title);
-console.log("team:", team);
-console.log("description:", description);
-console.log("END\n")
+const {preview, title, description, team} = Astro.props.data;
+
 ---
 
 <div class="grid md:grid-cols-5 md:p-8 gap-8 group hover:bg-gray-200 rounded-2xl transition duration-800">

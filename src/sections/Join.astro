@@ -1,18 +1,311 @@
 ---
 import HomeSection from "./HomeSection.astro";
 import { getAllEntriesOfContentType } from "../services/contentful";
+// import { sendMail } from "../services/sendEmail";
 
 const joinActions = await getAllEntriesOfContentType('getInvolvedSection');
+
+let firstName = "";
+let lastName = "";
+let email = "";
+let organization = "";
+let details = "";
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  // Check if any of the fields are empty
+  if (!firstName || !lastName || !email || !organization || !details) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  // Check if the email is in the right format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  // Send the form data to your server (you'll need a server endpoint for this)
+  const formData = { firstName, lastName, email, organization, details };
+
+  try {
+    const response = 200
+    // const response = await fetch('/your-server-endpoint', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(formData),
+    // });
+
+    if (response.status === 200) {
+      // Form submitted successfully, clear the fields
+      firstName = "";
+      lastName = "";
+      email = "";
+      organization = "";
+      details = "";
+
+      alert("Form submitted successfully!");
+    } else {
+      alert("There was an error submitting the form. Please try again later.");
+    }
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    alert("There was an error submitting the form. Please try again later.");
+  }
+};
 ---
-<!-- 
+
+<style>
+    /* .container {
+      display: grid;
+    grid-template-columns: 60% 40%;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .left-side {
+    flex: 6;
+    padding: 20px;
+    background-color: rgb(229, 231, 235);
+    border-radius: 8px;
+  }
+
+  .right-side {
+    flex: 4;
+    padding: 20px;
+    background-color: rgb(229, 231, 235);
+    border-radius: 8px;
+    text-align: center;
+  } */
+
+ 
+  
+  /* Container styles */
+
+  .container {
+    display: flex;
+    justify-content: flex-start; /* Align both sides at the beginning */
+    align-items: flex-start; /* Align both sides at the top */
+    text-align: left; /* Adjust text alignment as needed */
+    flex-wrap: wrap; /* Allow flex items to wrap when screen size is reduced */
+    margin-left: 5%;
+  }
+
+  /* Left side styles */
+  .left-side {
+    flex: 0 0 60%; /* Takes up 60% of the available space, doesn't grow or shrink */
+    max-width: 90%; /* Max width for left side */
+    padding: 20px;
+    background-color: rgb(229, 231, 235);
+    border-radius: 8px;
+    margin-right: 20px; /* Add spacing between left and right sides */
+    /* margin-left: 40; */
+  }
+
+  /* Right side styles */
+  .right-side {
+    flex: 1 0 auto; /* Takes remaining available space, can grow or shrink */
+    max-width: 100%; /* Max width for right side */
+    padding: 20px;
+    background-color: rgb(229, 231, 235);
+    border-radius: 8px;
+    margin-top: 10%;
+  }
+
+  /* Media query for responsive layout */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column; /* Stack left and right sides vertically */
+      align-items: stretch; /* Stretch both sides to full width */
+    }
+    .left-side,
+    .right-side {
+      margin-right: 0; /* Remove margin between left and right sides */
+    }
+  }
+
+  .left-side h1 {
+    color: rgb(26, 98, 213);
+    font-size: 24px;
+  }
+
+  .left-side h2 {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+
+  .left-side form {
+    margin-top: 20px;
+  }
+
+  .left-side .input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .left-side .input-group label {
+    flex: 1;
+  }
+
+  .left-side input[type="text"],
+  .left-side input[type="email"],
+  .left-side textarea {
+    flex: 2;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  /* .left-side form {
+    position: relative; /* Create a relative positioning context 
+  } */
+  /* Add a wrapper div to the button for positioning */
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end; /* Align the button to the right */
+  margin-top: 10px; /* Add margin to separate it from other form elements */
+  margin-right: 10px;
+}
+  .left-side button {
+    background-color: rgb(2, 82, 162);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    /* text-align: right; */
+    /* Align the button to the right */
+    align-self: flex-end;
+    /* Add some margin to separate it from the other form elements */
+    margin-top: 10px;
+   
+  }
 
 
- <HomeSection id="get-involved" title="Get Involved" style="color: white">
-<div class="flex flex-col -mb-7 md:mb-0 md:flex-row md:justify-center">
-    {joinActions.map((action) => {
+  .right-side .blue-button {
+    display: block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: rgb(0, 111, 178);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  .input-group {
+  /* display: flex;
+  flex-direction: column; Place label above input */
+  /*margin-bottom: 10px; /* Add spacing between input groups */
+}
+
+
+.input-group {
+  flex-direction: column;
+  display: inline-block; /* Make the input groups inline */
+  margin-right: 10px; /* Add spacing between them */
+}
+input[type="text"],
+input[type="email"],
+textarea {
+  
+  /* padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%; Expand input to full width */
+}
+
+
+.name-section,
+.email-organization-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.name-section .input-group,
+.email-organization-section .input-group {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  /* font-weight: bold; */
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+.blue-link-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Adjust the margin on the icon to create space */
+.blue-link-container .icon {
+  font-size: 32px;
+  color: blue;
+  margin-right: 10px; /* Adjust the margin to your desired spacing */
+}
+
+/* Rest of your CSS... */
+
+
+
+
+  .main-link {
+    font-size: 24px; /* Keep the main link size */
+  } */
+
+  .blue-link {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s;
+  }
+
+  .blue-link:hover {
+    color: rgb(32, 161, 240); /* Change color on hover */
+  }
+
+  .blue-link-container p {
+    font-size: 16px; /* Description text size */
+    /* margin-top: 5px; */
+    margin-bottom: 30px;
+    color: #555; /* Adjust text color as needed */
+  }
+  img {
+    width: 50px; /* Adjust the width as needed */
+    height: 50px; /* Adjust the height as needed */
+    color: #1a31ae;
+}
+.blue-svg-icon {
+  margin-right: 20px;
+  filter: brightness(0) saturate(100%) invert(22%) sepia(54%) saturate(3823%) hue-rotate(204deg) brightness(92%) contrast(91%);
+}
+
+
+</style>
+<HomeSection id="get-involved" title="Get Involved" style="color: black">
+<!-- <div class="flex flex-col -mb-7 md:mb-0 md:flex-row md:justify-center"> -->
+     <!-- {joinActions.map((action) => {
       const { heading, text, path, image } = action.fields;
       return (
-        <a class="block relative text-black z-10 h-52 lg:h-72 aspect-square mx-4 mb-7 md:my-0" href={path} target="_blank">
+       <a class="block relative text-black z-10 h-52 lg:h-72 aspect-square mx-4 mb-7 md:my-0" href={path} target="_blank">
           <div class="relative h-32 w-32 rounded overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-full z-0 brightness-50">
               <img src={"https:" + image.fields.file.url} class="h-full w-full object-cover rounded opacity-50" />
@@ -21,9 +314,82 @@ const joinActions = await getAllEntriesOfContentType('getInvolvedSection');
               <h1 class="text-2xl font-bold pb-4 text-white">{heading}</h1>
             </div>
           </div>
-        </a>
-      );
-    })}
-  </div> 
-</HomeSection> -->
+        </a>    
+      ); 
+    })} -->
+    <div class="container">
+      <div class="left-side">
+        <h1>Exploring the possibility to hiring GWU DSSD ?</h1>
+        <h2>Connect with Us Today!</h2>
+        <form submit={handleSubmit}>
+          <div class="name-section">
+            <div class="input-group">
+              <label for="firstName">First Name*</label>
+              <input type="text" id="firstName" placeholder ="First Name" bind:value={firstName} required />
+            </div>
+            <div class="input-group">
+              <label for="lastName">Last Name*</label>
+              <input type="text" id="lastName" placeholder ="Last Name" bind:value={lastName} required />
+            </div>
+          </div>
+    
+          <div class="email-organization-section">
+            <div class="input-group">
+              <label for="email">Email*</label>
+              <input type="email" id="email" placeholder ="Email " bind:value={email} required />
+            </div>
+            <div class="input-group">
+              <label for="organization">Organization*</label>
+              <input type="text" id="organization" placeholder ="Organization" bind:value={organization} required />
+            </div>
+          </div>
+    
+          <div class="input-group">
+            <label for="details">Details*</label>
+            <textarea id="details" placeholder ="Details" bind:value={details} rows="4" cols="50" required></textarea>
+          </div>
+    
+          <!-- Wrap the submit button in a div with the button-wrapper class -->
+        <div class="button-wrapper">
+          <button type="submit">Submit</button>
+        </div>
+          <!-- <button type="submit">Submit</button> -->
+        </form>
+      </div>
+    
+      <div class="right-side">
+        <div class="blue-link-container">
+          <img src="join.svg" alt="Sag Icon" class="blue-svg-icon">
+          <a href="https://docs.google.com/forms/d/1DIl0KWfWSiyIy0jj082k17dZENx4hT0LGsqBZws5M1k/edit" class="blue-link" target="_blank">
+            <div class="main-link">Apply to Join</div>
+            <p>Ready to Dive In? Apply Now and Make an Impact!</p>
+          </a>
+        </div>
+      
+        <div class="blue-link-container">
+          <img src="blog_pitch.svg" alt="Sag Icon" class="blue-svg-icon">
+          <a href="https://docs.google.com/forms/d/1JI-8vMogp36oakMxFhQPwNXmC4SJekCH8oxXXQKS-qE/edit" class="blue-link" target="_blank">
+            <div class="main-link">Submit your Blog Pitch</div>
+            <p>Let Your Voice Shine: Pitch Your Blog to the World!</p> 
+          </a>
+        </div>
+      
+        <div class="blue-link-container">
+          <img src="contact_mail.svg" alt="Sag Icon" class="blue-svg-icon">
+          <a href="mailto:gw@dssdglobal.org" class="blue-link">
+            <div class="main-link">Contact Us</div>
+            <p>Reach out and connect: Contact Our Team Today</p> 
+          </a>
+        </div>
+      </div>
+      
+      
+      
+      
+      
+    </div>
+  
+
+  <!-- </div>  -->
+</HomeSection> 
 

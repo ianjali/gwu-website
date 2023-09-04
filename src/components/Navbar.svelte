@@ -30,12 +30,12 @@
             name: "Blog",
             path: "/blogs"
         }
-        //,
-        // {
-        //     name: "Get Involved",
-        //     path: "/#get-involved",
-        //     action: true
-        // }
+        ,
+        {
+            name: "Get Involved",
+            path: "/#get-involved",
+            action: true
+        }
     ]
 </script>
 

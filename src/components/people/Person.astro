@@ -4,7 +4,7 @@ import ContactButton from './ContactButton.astro';
 const {data, id, hideRole} = Astro.props;
 
 let img;
-if (data.photo) {
+if (data.photo) { 
     img = data.photo.fields.file.url;
 }
 ---

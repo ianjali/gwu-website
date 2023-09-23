@@ -1,4 +1,4 @@
-# DSSD Madison Website
+# DSSD George Washington Website
 
 ## Overview
 
